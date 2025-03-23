@@ -51,6 +51,17 @@ while loop:
 # Sonuçları yazdır
 print(f"x* = {x}")
 
+''' 
+ÖNEMLİ BİR NOT: Gradient Descent (Dik İniş) yönteminde Hessian matrisi kullanılmaz. 
+Gradient Descent, sadece birinci dereceden türevleri (gradyan) kullanır ve Hessian 
+matrisi gibi ikinci dereceden türev bilgisine ihtiyaç duymaz. 
+
+Hessian matrisi, genellikle Newton Yöntemi gibi daha gelişmiş optimizasyon algoritmalarında kullanılır.
+
+Kodumuzda Hessian matrisi, optimizasyon sürecinde değil, sadece bulunan noktanın minimum, 
+maksimum veya semer noktası olup olmadığını analiz etmek için kullanılmıştır.
+'''
+
 # Hessian matrisi ve özdeğerler
 H = hessianF(x)
 ozdeger, ozvektor = np.linalg.eig(H)

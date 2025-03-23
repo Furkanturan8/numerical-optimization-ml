@@ -164,6 +164,13 @@ Bu algoritma, Gradient Descent ve Golden Section yöntemlerinin birleşimidir. G
 
 Gradient Descent, çok değişkenli fonksiyonların yerel minimumlarını bulmak için kullanılan iteratif bir optimizasyon algoritmasıdır.
 
+### ⚠️ Önemli Not:
+
+1. Gradient Descent yöntemi **sadece birinci dereceden türevleri (gradyan)** kullanır, Hessian matrisi kullanmaz.
+2. Hessian matrisi, Newton yöntemi gibi daha gelişmiş optimizasyon algoritmalarında kullanılır.
+3. Kodumuzda Hessian matrisi, optimizasyon sürecinde değil, sadece bulunan noktanın minimum, maksimum veya semer noktası olup olmadığını analiz etmek için kullanılmıştır.
+4. Gradient Descent'in temel formülü: x = x - α∇f(x) şeklindedir (α: öğrenme oranı).
+
 ### Çalışma Prensibi:
 
 1. Başlangıç noktası seçilir
