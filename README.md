@@ -9,6 +9,7 @@ Bu repo, çeşitli sayısal optimizasyon algoritmalarının Python implementasyo
 3. [Golden Section (Altın Oran) Algoritması](#golden-section-algoritması)
 4. [GS Steepest Descent (Altın Oran ile En Dik İniş) Algoritması](#gs-steepest-descent-algoritması)
 5. [Gradient Descent (Gradyan İniş) Algoritması](#gradient-descent-algoritması)
+6. [Conjugate Gradient (Konjuge Gradyan) Algoritması](#conjugate-gradient-algoritması)
 
 ## Bisection Algoritması
 
@@ -160,16 +161,9 @@ Bu algoritma, Gradient Descent ve Golden Section yöntemlerinin birleşimidir. G
    x = x_new
 ```
 
-## Gradient Descent Algoritması
+## Gradient Descent (Dik iniş) Algoritması
 
 Gradient Descent, çok değişkenli fonksiyonların yerel minimumlarını bulmak için kullanılan iteratif bir optimizasyon algoritmasıdır.
-
-### ⚠️ Önemli Not:
-
-1. Gradient Descent yöntemi **sadece birinci dereceden türevleri (gradyan)** kullanır, Hessian matrisi kullanmaz.
-2. Hessian matrisi, Newton yöntemi gibi daha gelişmiş optimizasyon algoritmalarında kullanılır.
-3. Kodumuzda Hessian matrisi, optimizasyon sürecinde değil, sadece bulunan noktanın minimum, maksimum veya semer noktası olup olmadığını analiz etmek için kullanılmıştır.
-4. Gradient Descent'in temel formülü: x = x - α∇f(x) şeklindedir (α: öğrenme oranı).
 
 ### Çalışma Prensibi:
 
@@ -196,6 +190,90 @@ Gradient Descent, çok değişkenli fonksiyonların yerel minimumlarını bulmak
 ```
 
 Uygulamamızda 3 + (x₁ - 1.5x₂)² + (x₂ - 2)² fonksiyonu optimize edilmiştir.
+
+## Conjugate Gradient (Konjuge Gradyan) Algoritması
+
+Konjuge gradyan algoritması, özellikle büyük ölçekli optimizasyon problemlerinde etkili olan iteratif bir yöntemdir. Gradyan iniş yönteminin geliştirilmiş bir versiyonudur ve her iterasyonda önceki arama yönünü de hesaba katar.
+
+### Çalışma Prensibi:
+
+1. Başlangıç noktası seçilir
+2. İlk arama yönü negatif gradyan olarak belirlenir
+3. Her iterasyonda:
+   - Beta katsayısı hesaplanır (Fletcher-Reeves formülü)
+   - Yeni arama yönü belirlenir
+   - Adım boyutu ile yeni nokta hesaplanır
+4. Durma kriterleri sağlanana kadar devam edilir
+
+### Algoritma:
+
+```python
+1. Başlangıç değerlerini belirle:
+   x = başlangıç noktası
+   ε₁, ε₂, ε₃ = hassasiyet değerleri
+   Nmax = maksimum iterasyon sayısı
+   k = 0
+
+2. İlk gradyanı hesapla:
+   gradf = ∇f(x)
+   pk = -gradf  # İlk arama yönü
+
+3. While k < Nmax:
+   if k > 0:
+      # Fletcher-Reeves formülü
+      Beta = ||∇f(x_k)||² / ||∇f(x_{k-1})||²
+      pk = -gradf + Beta * pk
+
+   # Önceki değerleri sakla
+   x_prev = x
+   gradf_prev = gradf
+
+   # Yeni noktayı hesapla
+   sk = adım boyutu
+   x = x + sk * pk
+
+   # Yeni gradyanı hesapla
+   gradf = ∇f(x)
+
+   # Sonlandırma kriterleri
+   if (|f(x) - f(x_prev)| < ε₁ and
+       ||x - x_prev|| < ε₂ and
+       ||∇f(x)|| < ε₃):
+       break
+
+   k += 1
+```
+
+### Önemli Parametreler:
+
+1. **Sonlandırma Kriterleri**:
+
+   - C1: k < Nmax (maksimum iterasyon)
+   - C2: |f(x\_{k+1}) - f(x_k)| < ε₁ (fonksiyon değişimi)
+   - C3: ||x\_{k+1} - x_k|| < ε₂ (konum değişimi)
+   - C4: ||∇f(x\_{k+1})|| < ε₃ (gradyan normu)
+
+2. **Beta Katsayısı**:
+
+   - Fletcher-Reeves formülü: β = ||∇f(x*k)||² / ||∇f(x*{k-1})||²
+   - Bu katsayı, yeni arama yönünün hesaplanmasında kullanılır
+
+3. **Adım Boyutu**:
+   - Sabit bir değer veya line search ile optimize edilebilir
+   - Çok küçük: yavaş yakınsama
+   - Çok büyük: ıraksama riski
+
+### Avantajları:
+
+1. Gradyan iniş yöntemine göre daha hızlı yakınsama
+2. Özellikle kuadratik fonksiyonlarda etkili
+3. Hafıza kullanımı açısından verimli
+
+### Dezavantajları:
+
+1. Beta hesaplaması için ekstra işlem gerektirir
+2. Adım boyutu seçimi hala önemli bir faktör
+3. Non-kuadratik fonksiyonlarda performans değişkenlik gösterebilir
 
 ## Gereksinimler
 
