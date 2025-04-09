@@ -21,19 +21,22 @@ iterations = 0
 
 
 while True:
+    if (f1(xa) * f1(xb)) < 0:
+        xk = xa + (xb-xa)/2
+        iterations += 1
+        
+        print(f"i: {iterations}: xa = {xa:.5f}, xb = {xb:.5f}, xk = {xk:.5f}")
 
-    xk = xa + (xb-xa)/2
-    iterations += 1
-    
-    print(f"i: {iterations}: xa = {xa:.5f}, xb = {xb:.5f}, xk = {xk:.5f}")
+        if (f1(xk) == 0 or (xb-xa) < 1e-4):
+            break
+        else: 
+            if(f1(xa) * f1(xk) > 0):
+                xa = xk
+            else:
+                xb = xk    
+    else:
+        print('Kök yok!')
+        break 
 
-    if (f1(xk) == 0 or (xb-xa) < 1e-4):
-        break
-    else: 
-        if(f1(xa) * f1(xk) > 0):
-            xa = xk
-        else:
-            xb = xk    
-            
 print(f"Kök yaklaşık olarak: {xa:.5f}")
 print(f"Toplam iterasyon sayısı: {iterations}")
