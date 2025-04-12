@@ -17,34 +17,34 @@ y = data['fiyat']
 
 # Verileri normalize edelim (0-1 aralığına getirelim)
 scaler = MinMaxScaler()
-X_scaled = scaler.fit_transform(X)
+X_scaled = scaler.fit_transform(X) # Normalize edilmiş X (Özelliklerin) değerleri (0-1 aralığında)
 
 # Eğitim ve test setlerini ayıralım (%80 eğitim, %20 test)
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42) # random_state = 42 olsun Rastgeleliği sabitlemek için kullanılan sayı
 
 # Şimdi Doğrusal Regresyon modelimizi oluşturacağız
 class LinearRegression:
     def __init__(self, learning_rate=0.01, n_iterations=1000):
         self.learning_rate = learning_rate
         self.n_iterations = n_iterations
-        self.weights = None
-        self.bias = None
-        self.training_history = []
+        self.weights = None # Ağırlıklar
+        self.bias = None # Bias (Sabit terim)
+        self.training_history = [] # Eğitim sürecinde oluşan hataların kaydedildiği liste
         
     def fit(self, X, y):
         # weights ve bias'ı başlangıçta rastgele değerlerle başlatalım
-        n_samples, n_features = X.shape
-        self.weights = np.zeros(n_features)
-        self.bias = 0
+        n_samples, n_features = X.shape # X'in satır(örnek sayısı) ve sütun(özellik sayısı) sayısı
+        self.weights = np.zeros(n_features) # Ağırlıkların başlangıç değeri
+        self.bias = 0 
         
         # Gradient descent algoritması
         for _ in range(self.n_iterations):
             # İleri yayılım (forward propagation)
-            y_predicted = np.dot(X, self.weights) + self.bias
+            y_predicted = np.dot(X, self.weights) + self.bias # Doğrusal regresyon formülü: y = wx + b
             
             # Gradyanları hesapla
-            # dw = (1/n_samples) * X^T * (y_predicted - y)
-            # db = (1/n_samples) * sum(y_predicted - y)
+            # dw = (1/n_samples) * X^T * (y_predicted - y) dw = ağırlık gradyanı
+            # db = (1/n_samples) * sum(y_predicted - y) db = bias gradyanı
             dw = (1/n_samples) * np.dot(X.T, (y_predicted - y))
             db = (1/n_samples) * np.sum(y_predicted - y)
             
@@ -54,11 +54,11 @@ class LinearRegression:
             
             # Her 100 iterasyonda bir MSE hesapla ve yazdır
             if _ % 100 == 0:
-                mse = np.mean((y_predicted - y) ** 2)
-                self.training_history.append(mse)
+                mse = np.mean((y_predicted - y) ** 2) # MSE = Mean Squared Error (Ortalama Karesel Hata)
+                self.training_history.append(mse) # Eğitim sürecinde oluşan hataların kaydedildiği listeye eklendi
                 print(f'Iterasyon {_}, MSE: {mse}')
     
-    def predict(self, X):
+    def predict(self, X): # Tahmin yapma
         # Doğrusal regresyon formülü: y = wx + b
         return np.dot(X, self.weights) + self.bias
 
@@ -80,8 +80,8 @@ plt.close()
 y_pred = model.predict(X_test)
 
 # Model performansını değerlendir
-r2 = r2_score(y_test, y_pred)
-mae = mean_absolute_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred) # R2 Skoru = 1 - (Hata / Toplam Hata)
+mae = mean_absolute_error(y_test, y_pred) # mae = mean absolute error (Ortalama Mutlak Hata)
 
 print("\nModel Performansı:")
 print(f"R2 Skoru: {r2:.4f}")

@@ -15,7 +15,7 @@ Veri seti `house_prices.csv` dosyasında bulunmaktadır ve aşağıdaki özellik
 
 ## Veri Seti Özellikleri
 
-- Toplam 20 örnek içermektedir
+- Toplam 20 örnek içermektedir (son sürümde 170 e çıkarıldı.)
 - Tüm değerler gerçekçi aralıklarda oluşturulmuştur
 - Fiyatlar 350,000 TL ile 1,900,000 TL arasında değişmektedir
 - Veriler arasında eksik değer bulunmamaktadır

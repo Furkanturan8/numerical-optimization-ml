@@ -30,9 +30,9 @@ print(y.describe())
 print("\n" + "="*50 + "\n")
 
 # Polynomial özellikleri oluştur
-poly = PolynomialFeatures(degree=2, include_bias=False)
-X_poly = poly.fit_transform(X)
-feature_names = poly.get_feature_names_out(X.columns)
+poly = PolynomialFeatures(degree=2, include_bias=False) # degree=2: 2. dereceden polynomial özellikler Örnek: metrekare² veya metrekare×yatak_odasi gibi yeni özellikler
+X_poly = poly.fit_transform(X) # Özelliklerin polynomial özelliklere dönüştürülmesi
+feature_names = poly.get_feature_names_out(X.columns) # Polynomial özelliklerinin isimleri
 print("Polynomial Özellikler:")
 print(feature_names)
 print(f"Toplam özellik sayısı: {len(feature_names)}\n")
@@ -41,7 +41,7 @@ print(f"Toplam özellik sayısı: {len(feature_names)}\n")
 scaler_X = StandardScaler()
 scaler_y = StandardScaler()
 
-X_scaled = scaler_X.fit_transform(X_poly)
+X_scaled = scaler_X.fit_transform(X_poly) # Ortalama=0, std=1 olacak şekilde
 y_scaled = scaler_y.fit_transform(y.values.reshape(-1, 1)).ravel()
 
 # Eğitim ve test setlerini ayıralım (%80 eğitim, %20 test)
@@ -121,7 +121,7 @@ print(f"Ortalama Mutlak Hata: {mae:.2f} TL")
 # En önemli özellikleri göster
 feature_importance = pd.DataFrame({
     'feature': feature_names,
-    'importance': np.abs(model.weights)
+    'importance': np.abs(model.weights) # Ağırlıkların mutlak değerleri
 })
 feature_importance = feature_importance.sort_values('importance', ascending=False)
 print("\nEn Önemli 10 Özellik:")

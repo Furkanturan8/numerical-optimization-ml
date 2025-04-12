@@ -30,10 +30,10 @@ print(y.describe())
 print("\n" + "="*50 + "\n")
 
 # Verileri ölçeklendirelim (standardize)
-scaler_X = StandardScaler()
-scaler_y = StandardScaler()
+scaler_X = StandardScaler() # Özelliklerin ölçeklendirilmesi
+scaler_y = StandardScaler() # Hedef değişkenin ölçeklendirilmesi
 
-X_scaled = scaler_X.fit_transform(X)
+X_scaled = scaler_X.fit_transform(X) # Özelliklerin standardizasyonu
 y_scaled = scaler_y.fit_transform(y.values.reshape(-1, 1)).ravel()
 
 # Eğitim ve test setlerini ayıralım (%80 eğitim, %20 test)
